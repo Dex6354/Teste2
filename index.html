@@ -43,9 +43,9 @@
         .row {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start; /* Alinha ao topo caso o texto quebre */
+            align-items: flex-start;
             margin-bottom: 10px;
-            gap: 10px; /* Garante espaço entre label e value */
+            gap: 12px;
         }
         
         .row:last-child { margin-bottom: 0; }
@@ -53,14 +53,14 @@
         .label { 
             color: #666; 
             font-size: 14px; 
-            flex-shrink: 0; /* Impede que o rótulo seja esmagado */
+            flex-shrink: 0;
         }
         
         .value { 
             font-weight: bold; 
             font-size: 14px; 
             text-align: right;
-            word-break: break-word; /* Quebra palavras longas se necessário */
+            word-break: break-word;
             overflow-wrap: break-word;
         }
         
@@ -116,7 +116,6 @@
 
         @media (max-width: 320px) {
             .container { padding: 15px; }
-            .divider { margin: 15px -15px; }
             .label, .value { font-size: 13px; }
         }
     </style>
@@ -130,6 +129,10 @@
             <span class="value">15.00 BRL</span>
         </div>
         <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+        <div class="row">
+            <span class="label">Access Type</span>
+            <span class="value">Data query and information retrieval access</span>
+        </div>
         <div class="row">
             <span class="label">Description</span>
             <span class="value">Single-use access – payment required for each new access</span>
