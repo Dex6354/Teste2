@@ -3,14 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout Seguro</title>
+    <title>Checkout Seguro - Pagamento Bitcoin</title>
     <style>
-        body { background-color: #0d0d0d; color: #00ff41; font-family: 'Courier New', Courier, monospace; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { border: 1px solid #00ff41; padding: 20px; text-align: center; max-width: 400px; box-shadow: 0 0 15px #00ff41; }
-        .btc-addr { background: #1a1a1a; padding: 10px; word-break: break-all; margin: 15px 0; border: 1px dashed #00ff41; }
-        .status { font-weight: bold; text-transform: uppercase; margin-top: 20px; }
-        .loader { display: inline-block; animation: blink 1s infinite; }
-        @keyframes blink { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
+        body {
+            background-color: #0d0d0d;
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            border: 1px solid #00ff41;
+            padding: 20px;
+            text-align: center;
+            width: 90%; /* Define a largura máxima */
+            max-width: 400px;
+            box-shadow: 0 0 15px #00ff41;
+            margin: 0 10px; /* Adiciona margem lateral */
+        }
+
+        .btc-addr {
+            background: #1a1a1a;
+            padding: 10px;
+            word-break: break-all;
+            margin: 15px 0;
+            border: 1px dashed #00ff41;
+            display: flex; /* Para alinhar o texto e o borrão */
+            justify-content: center;
+            align-items: center;
+            font-size: 0.9em; /* Ligeiramente menor para caber melhor */
+        }
+
+        .blur-part {
+            filter: blur(4px); /* Aplica o efeito de borrão */
+            background-color: rgba(0, 255, 65, 0.3); /* Fundo sutil para destacar */
+            padding: 0 5px; /* Pequeno espaçamento lateral */
+            color: transparent; /* Oculta o texto real, mostrando apenas o borrão */
+        }
+
+        .status {
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
+
+        .loader {
+            display: inline-block;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -24,7 +74,7 @@
     <p>Envie exatamente o valor em Bitcoin para:</p>
     
     <div class="btc-addr">
-        bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
+        bc1q<span class="blur-part">xyz...kdgj</span>sqtzq2n0yrf2493p83kkfjhx0wlh
     </div>
 
     <div class="status">
