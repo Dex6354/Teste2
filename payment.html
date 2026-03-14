@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecionar Pagamento</title>
+    <style>
+        body {
+            background-color: #e3f2fd;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        /* Informações do Pacote (Mantidas do Index) */
+        .details {
+            border: 1px solid #eee;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: left;
+            margin-bottom: 20px;
+            background-color: #fcfcfc;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            gap: 12px;
+        }
+        
+        .label-info { color: #666; font-size: 13px; }
+        .value-info { font-weight: bold; font-size: 13px; text-align: right; }
+
+        h2 { font-size: 1.1rem; margin-bottom: 20px; color: #3e7085; }
+
+        .payment-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-card {
+            border: 2px solid #eee;
+            border-radius: 12px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .option-card img { height: 22px; object-fit: contain; }
+
+        .option-card.active {
+            border-color: #3e7085;
+            background-color: #f0f7f9;
+        }
+
+        .payment-form {
+            display: none;
+            text-align: left;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        label { display: block; font-size: 11px; color: #666; margin-bottom: 4px; text-transform: uppercase; font-weight: bold; }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .data-box {
+            background: #fff;
+            border: 1px dashed #3e7085;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 11px;
+            word-break: break-all;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            color: #333;
+        }
+
+        .btn {
+            background-color: #3e7085;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover { background-color: #2c5161; }
+
+        .expiry { color: #d32f2f; font-size: 11px; font-weight: bold; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="details">
+        <div class="row">
+            <span class="label-info">Package Price</span>
+            <span class="value-info">15.00 BRL</span>
+        </div>
+        <div class="row">
+            <span class="label-info">Access Type</span>
+            <span class="value-info">Read-Only Data</span>
+        </div>
+        <div class="row">
+            <span class="label-info">Description</span>
+            <span class="value-info">Single-use access</span>
+        </div>
+    </div>
+
+    <h2>Select Payment Method</h2>
+
+    <div class="payment-options">
+        <div class="option-card active" id="opt-pix" onclick="selectMethod('pix')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Pix_%28Brazil%29_logo.svg/3840px-Pix_%28Brazil%29_logo.svg.png" alt="Pix">
+            Pix
+        </div>
+        <div class="option-card" id="opt-card" onclick="selectMethod('card')">
+            <img src="https://logos-world.net/wp-content/uploads/2020/09/Mastercard-Logo.png" alt="Card">
+            Card
+        </div>
+        <div class="option-card" id="opt-btc" onclick="selectMethod('btc')">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg" alt="BTC">
+            Bitcoin
+        </div>
+    </div>
+
+    <div id="form-pix" class="payment-form" style="display: block;">
+        <label>Copy Pix Key:</label>
+        <div class="data-box" id="pix-key"></div>
+        <div class="expiry">Expires in: 10:00 minutes</div>
+    </div>
+
+    <div id="form-card" class="payment-form">
+        <label>Cardholder Name</label>
+        <input type="text" placeholder="NAME AS PRINTED ON CARD">
+        
+        <label>Card Number</label>
+        <input type="text" placeholder="0000 0000 0000 0000">
+        
+        <div style="display: flex; gap: 10px;">
+            <div style="flex: 1.5;">
+                <label>Expiration</label>
+                <input type="text" placeholder="MM/YY">
+            </div>
+            <div style="flex: 1;">
+                <label>CVV</label>
+                <input type="text" placeholder="123">
+            </div>
+        </div>
+    </div>
+
+    <div id="form-btc" class="payment-form">
+        <label>BTC Wallet Address:</label>
+        <div class="data-box" id="btc-address"></div>
+        <label style="text-align: center; margin-top: 5px;">Network: Bitcoin (BTC)</label>
+    </div>
+
+    <button class="btn" onclick="window.location.href='checkout.html'">
+        Confirm and Proceed
+    </button>
+</div>
+
+<script>
+    function generateRandomString(length) {
+        const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    }
+
+    function selectMethod(method) {
+        // Reset visual das opções
+        document.querySelectorAll('.option-card').forEach(c => c.classList.remove('active'));
+        // Esconder todos os formulários
+        document.querySelectorAll('.payment-form').forEach(f => f.style.display = 'none');
+
+        // Ativar opção selecionada
+        document.getElementById('opt-' + method).classList.add('active');
+        document.getElementById('form-' + method).style.display = 'block';
+
+        // Atualizar dados dinâmicos
+        if (method === 'pix') {
+            document.getElementById('pix-key').textContent = '00020126580014br.gov.bcb.pix0136' + generateRandomString(25).toUpperCase() + '520400005303986';
+        } else if (method === 'btc') {
+            document.getElementById('btc-address').textContent = 'bc1q' + generateRandomString(36).toLowerCase();
+        }
+    }
+
+    // Inicializa com Pix gerado
+    window.onload = () => selectMethod('pix');
+</script>
+
+</body>
+</html>
