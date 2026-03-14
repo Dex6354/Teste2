@@ -133,7 +133,6 @@
 
         .expiry { color: #d32f2f; font-size: 11px; font-weight: bold; text-align: center; }
         
-        /* Secure Info Style */
         .security-info {
             display: flex;
             align-items: center;
@@ -148,6 +147,7 @@
             border-radius: 8px;
         }
 
+        /* Botão com Animação */
         .btn {
             background-color: #3e7085;
             color: white;
@@ -158,10 +158,15 @@
             font-size: 16px;
             cursor: pointer;
             width: 100%;
-            transition: background 0.3s;
+            transition: transform 0.1s, background 0.3s;
+            outline: none;
         }
 
         .btn:hover { background-color: #2c5161; }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
 
         @media (max-width: 320px) {
             .container { padding: 15px; }
@@ -232,7 +237,7 @@
         Secure & Encrypted Environment
     </div>
 
-    <button class="btn" onclick="window.location.href='checkout.html'">
+    <button class="btn" onclick="handleConfirm()">
         Confirm and Proceed
     </button>
 </div>
@@ -259,6 +264,14 @@
         } else if (method === 'btc') {
             document.getElementById('btc-address').textContent = 'bc1q' + generateRandomString(36).toLowerCase();
         }
+    }
+
+    function handleConfirm() {
+        // Pop-up informativo
+        alert("Por favor, finalize o pagamento para liberar seu acesso.");
+        
+        // Redirecionamento após o OK do usuário
+        window.location.href = 'checkout.html';
     }
 
     window.onload = () => selectMethod('pix');
